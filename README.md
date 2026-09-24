@@ -15,10 +15,13 @@ A Python project that automatically identifies and organizes files by their file
   - Programs
   - Other
 - Handles uppercase and lowercase file extensions
+- Automatically creates category folders
+- Automatically moves files into the correct folders
+- Prevents duplicate filenames by automatically renaming files
 
 ## Status
 
-🚧 Work in Progress — Prototype v0.1
+🚧 Work in Progress — Prototype v0.3
 
 ## Built With
 

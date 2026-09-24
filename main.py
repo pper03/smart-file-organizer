@@ -10,27 +10,30 @@ program_extensions = (".exe", ".msi")
 
 document_folder = folder / "Documents"
 document_folder.mkdir(exist_ok=True)
-
 image_folder = folder / "Images"
 image_folder.mkdir(exist_ok=True)
-
 video_folder = folder / "Videos"
 video_folder.mkdir(exist_ok=True)
-
 audio_folder = folder / "Audio"
 audio_folder.mkdir(exist_ok=True)
-
 archives_folder = folder / "Archives"
 archives_folder.mkdir(exist_ok=True)
-
 program_folder = folder / "Programs"
 program_folder.mkdir(exist_ok=True)
-
 other_folder = folder / "Other"
 other_folder.mkdir(exist_ok=True)
 
 def move_file(file, target_folder):
     destination = target_folder / file.name
+
+    stem = file.stem
+    suffix = file.suffix
+    counter = 1
+
+    while destination.exists():
+        destination = target_folder / f"{stem}_{counter}{suffix}"
+        counter += 1
+
     file.rename(destination)
 
 for file in folder.iterdir():
