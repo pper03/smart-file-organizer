@@ -1,6 +1,24 @@
 from pathlib import Path
 
-folder = Path("test_files")
+folder_path = input("Enter folder path: ").strip().strip('"')
+
+if not folder_path:
+    print("Please enter a folder path")
+    exit()
+
+folder = Path(folder_path)
+
+if not folder.exists():
+    print("Folder not found")
+    exit()
+
+if not folder.is_dir():
+    print("Path is not a folder")
+    exit()
+
+print(f"Organizing: {folder}")
+
+
 document_extensions = (".pdf", ".txt", ".docx", ".xlsx", ".pptx")
 image_extensions = (".jpg", ".jpeg", ".png", ".gif", ".webp")
 video_extensions = (".mp4", ".mov", ".avi", ".mkv")
@@ -35,6 +53,9 @@ def move_file(file, target_folder):
         counter += 1
 
     file.rename(destination)
+    return True
+
+organized_count = 0
 
 for file in folder.iterdir():
     
@@ -44,28 +65,46 @@ for file in folder.iterdir():
 
     if file_name.endswith(document_extensions):
         print(file.name, "->", "Document")
-        move_file(file, document_folder)
+        result = move_file(file, document_folder)
+        if result:
+            organized_count += 1
 
     elif file_name.endswith(image_extensions):
         print(file.name, "->", "Image")
-        move_file(file, image_folder)
+        result = move_file(file, image_folder)
+        if result:
+            organized_count += 1
 
     elif file_name.endswith(video_extensions):
         print(file.name, "->", "Video")
-        move_file(file, video_folder)
+        result = move_file(file, video_folder)
+        if result:
+            organized_count += 1
 
     elif file_name.endswith(audio_extensions):
         print(file.name, "->", "Audio")
-        move_file(file, audio_folder)
+        result = move_file(file, audio_folder)
+        if result:
+            organized_count += 1
 
 
     elif file_name.endswith(archive_extensions):
-            print(file.name, "->", "Archive")
-            move_file(file, archives_folder)
+        print(file.name, "->", "Archive")
+        result = move_file(file, archives_folder)
+        if result:
+            organized_count += 1
 
     elif file_name.endswith(program_extensions):
         print(file.name, "->", "Program")
-        move_file(file, program_folder)
+        result = move_file(file, program_folder)
+        if result:
+            organized_count += 1
+
     else:
         print(file.name, "->", "Other")
-        move_file(file, other_folder)
+        result = move_file(file, other_folder)
+        if result:
+            organized_count += 1
+
+print("Organization complete!")
+print(f"{organized_count} files organized.")

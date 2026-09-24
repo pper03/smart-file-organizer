@@ -18,10 +18,13 @@ A Python project that automatically identifies and organizes files by their file
 - Automatically creates category folders
 - Automatically moves files into the correct folders
 - Prevents duplicate filenames by automatically renaming files
+- Allows users to choose a folder to organize
+- Validates folder paths before organizing
+- Shows the number of files organized
 
 ## Status
 
-🚧 Work in Progress — Prototype v0.3
+🚧 Work in Progress — Prototype v0.4
 
 ## Built With
 
