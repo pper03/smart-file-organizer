@@ -27,21 +27,16 @@ archive_extensions = (".zip", ".rar", ".7z")
 program_extensions = (".exe", ".msi")
 
 document_folder = folder / "Documents"
-document_folder.mkdir(exist_ok=True)
 image_folder = folder / "Images"
-image_folder.mkdir(exist_ok=True)
 video_folder = folder / "Videos"
-video_folder.mkdir(exist_ok=True)
 audio_folder = folder / "Audio"
-audio_folder.mkdir(exist_ok=True)
 archives_folder = folder / "Archives"
-archives_folder.mkdir(exist_ok=True)
 program_folder = folder / "Programs"
-program_folder.mkdir(exist_ok=True)
 other_folder = folder / "Other"
-other_folder.mkdir(exist_ok=True)
 
 def move_file(file, target_folder):
+    target_folder.mkdir(exist_ok=True)
+
     destination = target_folder / file.name
 
     stem = file.stem
@@ -57,6 +52,8 @@ def move_file(file, target_folder):
 
 organized_count = 0
 
+files_to_organize = []
+
 for file in folder.iterdir():
     
     if not file.is_file():
@@ -65,46 +62,52 @@ for file in folder.iterdir():
 
     if file_name.endswith(document_extensions):
         print(file.name, "->", "Document")
-        result = move_file(file, document_folder)
-        if result:
-            organized_count += 1
+        files_to_organize.append((file, document_folder))
 
     elif file_name.endswith(image_extensions):
         print(file.name, "->", "Image")
-        result = move_file(file, image_folder)
-        if result:
-            organized_count += 1
+        files_to_organize.append((file, image_folder))
 
     elif file_name.endswith(video_extensions):
         print(file.name, "->", "Video")
-        result = move_file(file, video_folder)
-        if result:
-            organized_count += 1
+        files_to_organize.append((file, video_folder))
 
     elif file_name.endswith(audio_extensions):
         print(file.name, "->", "Audio")
-        result = move_file(file, audio_folder)
-        if result:
-            organized_count += 1
-
+        files_to_organize.append((file, audio_folder))
 
     elif file_name.endswith(archive_extensions):
         print(file.name, "->", "Archive")
-        result = move_file(file, archives_folder)
-        if result:
-            organized_count += 1
+        files_to_organize.append((file, archives_folder))
 
     elif file_name.endswith(program_extensions):
         print(file.name, "->", "Program")
-        result = move_file(file, program_folder)
-        if result:
-            organized_count += 1
+        files_to_organize.append((file, program_folder))
 
     else:
         print(file.name, "->", "Other")
-        result = move_file(file, other_folder)
+        files_to_organize.append((file, other_folder))
+
+if not files_to_organize:
+    print("No files to organize.")
+    exit()
+
+print("\nPreview:")
+
+for file, target_folder in files_to_organize:
+    print(file.name, "->", target_folder.name)
+
+choice = input("Move these files? (y/n): ").strip().lower()
+
+if choice == "y":
+    for file, target_folder in files_to_organize:
+        result = move_file(file, target_folder)
+
         if result:
             organized_count += 1
 
-print("Organization complete!")
-print(f"{organized_count} files organized.")
+    print("Organization complete!")
+    print(f"{organized_count} files organized.")
+
+else:
+    print("Organization cancelled.")

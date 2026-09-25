@@ -21,10 +21,14 @@ A Python project that automatically identifies and organizes files by their file
 - Allows users to choose a folder to organize
 - Validates folder paths before organizing
 - Shows the number of files organized
+- Shows a preview before moving files
+- Asks for confirmation before organizing files
+- Cancels safely without moving files
+- Handles empty folders without unnecessary actions
 
 ## Status
 
-🚧 Work in Progress — Prototype v0.4
+🚧 Work in Progress — Prototype v0.5
 
 ## Built With
 
