@@ -25,10 +25,12 @@ A Python project that automatically identifies and organizes files by their file
 - Asks for confirmation before organizing files
 - Cancels safely without moving files
 - Handles empty folders without unnecessary actions
+- Uses a structured category system for file classification
+- Refactored file scanning and classification into reusable functions
 
 ## Status
 
-🚧 Work in Progress — Prototype v0.5
+🚧 Work in Progress — Prototype v0.6
 
 ## Built With
 
