@@ -29,10 +29,12 @@ A Python project that automatically identifies and organizes files by their file
 - Refactored file scanning and classification into reusable functions
 - Handles file-moving errors without crashing the program
 - Reports the number of successfully organized and failed files
+- Shows a summary of organized files by category
+- Tracks the number of files organized in each category
 
 ## Status
 
-🚧 Work in Progress — Prototype v0.7
+🚧 Work in Progress — Prototype v0.8
 
 ## Built With
 

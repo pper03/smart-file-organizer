@@ -88,7 +88,7 @@ def scan_files(folder):
         category_name, target_folder = get_target_folder(file_name)
 
         print(file.name, "->", category_name)
-        files_to_organize.append((file, target_folder))
+        files_to_organize.append((file, category_name, target_folder))
 
     return files_to_organize
 
@@ -115,6 +115,15 @@ def move_file(file, target_folder):
 
 organized_count = 0
 failed_count = 0
+file_counts = {
+    "Document": 0,
+    "Image": 0,
+    "Video": 0,
+    "Audio": 0,
+    "Archive": 0,
+    "Programs": 0,
+    "Other": 0
+}
 
 files_to_organize = scan_files(folder)
 
@@ -124,23 +133,29 @@ if not files_to_organize:
 
 print("\nPreview:")
 
-for file, target_folder in files_to_organize:
-    print(file.name, "->", target_folder.name)
+for file, category_name, target_folder in files_to_organize:
+    print(file.name, "->", category_name)
 
 choice = input("Move these files? (y/n): ").strip().lower()
 
 if choice == "y":
-    for file, target_folder in files_to_organize:
+    for file, category_name, target_folder in files_to_organize:
         result = move_file(file, target_folder)
 
         if result:
             organized_count += 1
+            file_counts[category_name] += 1
         else:
             failed_count += 1
 
-    print("Organization complete!")
-    print(f"{organized_count} files organized.")
-    print(f"{failed_count} files failed.")
+    print("\n===== Summary =====")
+
+    for category, count in file_counts.items():
+        print(f"{category}: {count}")
+
+    print(f"\nTotal organized: {organized_count}")
+    print(f"Failed: {failed_count}")
+    print("===================")
 else:
     print("Organization cancelled.")
     
