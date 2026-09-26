@@ -34,6 +34,64 @@ archives_folder = folder / "Archives"
 program_folder = folder / "Programs"
 other_folder = folder / "Other"
 
+categories = [
+    {
+        "name": "Document",
+        "folder": document_folder,
+        "extensions": document_extensions
+    },
+    {
+        "name": "Image",
+        "folder": image_folder,
+        "extensions": image_extensions
+    },
+    {
+        "name": "Video",
+        "folder": video_folder,
+        "extensions": video_extensions
+    },
+    {
+        "name": "Audio",
+        "folder": audio_folder,
+        "extensions": audio_extensions
+    },
+    {
+        "name": "Archive",
+        "folder": archives_folder,
+        "extensions": archive_extensions
+    },
+    {
+        "name": "Programs",
+        "folder": program_folder,
+        "extensions": program_extensions
+    }
+]
+
+def get_target_folder(file_name):
+
+    for category in categories:
+        if file_name.endswith(category["extensions"]):
+            return category["name"], category["folder"]
+
+    return "Other", other_folder
+
+def scan_files(folder):
+    files_to_organize = []
+
+    for file in folder.iterdir():
+
+        if not file.is_file():
+            continue
+
+        file_name = file.name.lower()
+
+        category_name, target_folder = get_target_folder(file_name)
+
+        print(file.name, "->", category_name)
+        files_to_organize.append((file, target_folder))
+
+    return files_to_organize
+
 def move_file(file, target_folder):
     target_folder.mkdir(exist_ok=True)
 
@@ -52,41 +110,7 @@ def move_file(file, target_folder):
 
 organized_count = 0
 
-files_to_organize = []
-
-for file in folder.iterdir():
-    
-    if not file.is_file():
-        continue
-    file_name = file.name.lower()
-
-    if file_name.endswith(document_extensions):
-        print(file.name, "->", "Document")
-        files_to_organize.append((file, document_folder))
-
-    elif file_name.endswith(image_extensions):
-        print(file.name, "->", "Image")
-        files_to_organize.append((file, image_folder))
-
-    elif file_name.endswith(video_extensions):
-        print(file.name, "->", "Video")
-        files_to_organize.append((file, video_folder))
-
-    elif file_name.endswith(audio_extensions):
-        print(file.name, "->", "Audio")
-        files_to_organize.append((file, audio_folder))
-
-    elif file_name.endswith(archive_extensions):
-        print(file.name, "->", "Archive")
-        files_to_organize.append((file, archives_folder))
-
-    elif file_name.endswith(program_extensions):
-        print(file.name, "->", "Program")
-        files_to_organize.append((file, program_folder))
-
-    else:
-        print(file.name, "->", "Other")
-        files_to_organize.append((file, other_folder))
+files_to_organize = scan_files(folder)
 
 if not files_to_organize:
     print("No files to organize.")
