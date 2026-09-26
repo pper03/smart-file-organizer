@@ -93,22 +93,28 @@ def scan_files(folder):
     return files_to_organize
 
 def move_file(file, target_folder):
-    target_folder.mkdir(exist_ok=True)
+    try:
+        target_folder.mkdir(exist_ok=True)
 
-    destination = target_folder / file.name
+        destination = target_folder / file.name
 
-    stem = file.stem
-    suffix = file.suffix
-    counter = 1
+        stem = file.stem
+        suffix = file.suffix
+        counter = 1
 
-    while destination.exists():
-        destination = target_folder / f"{stem}_{counter}{suffix}"
-        counter += 1
+        while destination.exists():
+            destination = target_folder / f"{stem}_{counter}{suffix}"
+            counter += 1
 
-    file.rename(destination)
-    return True
+        file.rename(destination)
+        return True
+    except Exception as error:
+        print("Failed to move:", file.name)
+        print("Error:", error)
+        return False
 
 organized_count = 0
+failed_count = 0
 
 files_to_organize = scan_files(folder)
 
@@ -129,9 +135,12 @@ if choice == "y":
 
         if result:
             organized_count += 1
+        else:
+            failed_count += 1
 
     print("Organization complete!")
     print(f"{organized_count} files organized.")
-
+    print(f"{failed_count} files failed.")
 else:
     print("Organization cancelled.")
+    
