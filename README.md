@@ -31,12 +31,18 @@ A Python project that automatically identifies and organizes files by their file
 - Reports the number of successfully organized and failed files
 - Shows a summary of organized files by category
 - Tracks the number of files organized in each category
+- Provides a graphical user interface (GUI) using Tkinter
+- Allows users to select folders using a folder picker
+- Displays file organization previews in the GUI
+- Shows a confirmation dialog before moving files
+- Displays an organization summary after completion
 
 ## Status
 
-🚧 Work in Progress — Prototype v0.8
+🚧 Work in Progress — Prototype v0.9
 
 ## Built With
 
 - Python
 - pathlib
+- Tkinter
