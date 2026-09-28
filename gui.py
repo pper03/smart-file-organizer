@@ -50,6 +50,10 @@ def organize_files():
     folder_path = selected_folder.get()
 
     if not folder_path:
+        messagebox.showwarning(
+            "Smart File Organizer",
+            "Please select a folder first."
+        )
         return
 
     preview_text.delete("1.0", tk.END)

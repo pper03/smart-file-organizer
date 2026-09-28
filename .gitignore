@@ -1,2 +1,5 @@
 test_files/
 .vscode/
+build/
+dist/
+*.spec
