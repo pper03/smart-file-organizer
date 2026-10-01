@@ -158,3 +158,15 @@ This is a learning project developed with assistance from ChatGPT for code examp
 ## Status
 
 Version 1.1 with error-handling improvements. The Windows executable was rebuilt and passed the successful-move and failed-move tests on 2026-10-01.
+
+## Additional Manual Tests — 2026-10-01
+
+Tested the Windows executable on Windows 10.
+
+| Test | Result |
+| --- | --- |
+| Move only the selected file | Passed |
+| Preserve existing file contents when names collide | Passed: note.txt retained OLD; note_1.txt contained NEW |
+| Select files by category | Passed |
+| Select all files using ALL | Passed |
+| Uncheck a file and update category / ALL checkboxes | Passed |
