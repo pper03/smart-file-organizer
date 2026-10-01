@@ -53,13 +53,11 @@ def move_file(file, target_folder):
             counter += 1
 
         file.rename(destination)
-        return True
+        return True, ""
 
-    except Exception as error:
-        print("Failed to move:", file.name)
-        print("Error:", error)
-        return False
-
+    except OSError as error:
+        return False, str(error)
+    
 
 def toggle_all():
     state = all_var.get()
@@ -123,16 +121,25 @@ def build_table(folder):
 
     grouped_files = {}
 
-    for file in folder.iterdir():
-        if not file.is_file():
-            continue
+    try:
+        for file in folder.iterdir():
+            if not file.is_file():
+                continue
 
-        category_name = get_category(file)
+            category_name = get_category(file)
 
-        if category_name not in grouped_files:
-            grouped_files[category_name] = []
+            if category_name not in grouped_files:
+                grouped_files[category_name] = []
 
-        grouped_files[category_name].append(file)
+            grouped_files[category_name].append(file)
+
+    except OSError as error:
+        messagebox.showerror(
+            "Cannot open folder",
+            f"Unable to read this folder:\n{folder}\n\n"
+            f"Details: {error}\n\nPlease select a folder again."
+        )
+        return
 
     if not grouped_files:
         empty_label = tk.Label(
@@ -324,15 +331,20 @@ def organize_files():
         "Other": 0
     }
 
+    failed_details = []
+
     for file in selected_files:
         category_name = file_categories[file]
         target_folder = get_target_folder(folder, category_name)
 
-        if move_file(file, target_folder):
+        success, error_message = move_file(file, target_folder)
+
+        if success:
             organized_count += 1
             file_counts[category_name] += 1
         else:
             failed_count += 1
+            failed_details.append(f"{file.name}: {error_message}")
 
     summary = "===== Summary =====\n"
 
@@ -343,10 +355,16 @@ def organize_files():
     summary += f"\nTotal organized: {organized_count}"
     summary += f"\nFailed: {failed_count}"
 
-    messagebox.showinfo(
-        "Summary",
-        summary
-    )
+    if failed_details:
+        summary += "\n\nFailure details:\n"
+        summary += "\n\n".join(failed_details[:5])
+
+        if len(failed_details) > 5:
+            summary += f"\n\n...and {len(failed_details) - 5} more."
+
+        messagebox.showwarning("Summary", summary)
+    else:
+        messagebox.showinfo("Summary", summary)
 
     build_table(folder)
 
